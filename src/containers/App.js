@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch
-} from "react-router";
+} from "react-router-dom";
 
 
 // Components
@@ -14,7 +14,7 @@ import ReservationList from './ReservationList';
 import RoomList from './RoomList';
 import Reservation from './Reservation';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <div className="App">
@@ -40,5 +40,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
