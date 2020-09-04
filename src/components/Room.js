@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function Room(props) {
   const {
-    title, imgUrl, capacity, privateRoom, amenities, userLoggedIn
+    id, title, imgUrl, capacity, privateRoom, amenities, displayReservation,
   } = props;
 
   const imageStyle = {
@@ -46,6 +47,10 @@ export default function Room(props) {
     )
     : null;
 
+  const createReservationLink = displayReservation
+    ? <Link to={`/room/${id}`} className="reserve-link">Reserve room.</Link>
+    : null;
+
   return (
     <div className="room">
       { image }
@@ -64,12 +69,14 @@ export default function Room(props) {
         <div className="info-body">
           {amenitiesComponent}
         </div>
+        { createReservationLink }
       </div>
     </div>
   );
 }
 
 Room.defaultProps = {
+  id: 1,
   imgUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
   title: 'Hot desk',
   capacity: 1,
@@ -79,14 +86,15 @@ Room.defaultProps = {
     'Water',
     'Cable internet',
   ],
-  userLoggedIn: true,
+  displayReservation: false,
 };
 
 Room.propTypes = {
+  id: PropTypes.number,
   title: PropTypes.string,
   imgUrl: PropTypes.string,
   capacity: PropTypes.number,
   privateRoom: PropTypes.bool,
   amenities: PropTypes.array,
-  userLoggedIn: PropTypes.bool,
+  displayReservation: PropTypes.bool,
 };

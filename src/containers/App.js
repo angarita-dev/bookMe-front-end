@@ -2,9 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
-} from "react-router-dom";
-
+  Switch,
+} from 'react-router-dom';
 
 // Components
 import SignUp from '../components/SignUp';
@@ -12,7 +11,7 @@ import SignIn from '../components/SignIn';
 import SideBar from '../components/SideBar';
 import ReservationList from './ReservationList';
 import RoomList from './RoomList';
-import Reservation from './Reservation';
+import RoomDisplay from './RoomDisplay';
 
 export default function App() {
   return (
@@ -20,17 +19,17 @@ export default function App() {
       <div className="App">
         <SideBar />
         <Switch>
-          <Route path="/signup">
+          <Route path="/sign-up">
             <SignUp />
           </Route>
-          <Route path="/signin">
+          <Route path="/sign-in">
             <SignIn />
           </Route>
           <Route path="/reservations">
             <ReservationList />
           </Route>
-          <Route path="/reservation/:id">
-            <Reservation />
+          <Route path="/room/:id">
+            <RoomDisplay />
           </Route>
           <Route path="/">
             <RoomList />

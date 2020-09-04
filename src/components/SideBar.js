@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 export default function SideBar(props) {
-  const { adminUser } = props;
+  const { loggedUser } = props;
 
-  const reservationsLink = adminUser
+  const reservationsLink = loggedUser
     ? <NavLink to="/reservations">Reservations</NavLink>
     : null;
 
@@ -21,12 +21,12 @@ export default function SideBar(props) {
           Rooms
         </NavLink>
         <NavLink
-          to="/signin"
+          to="/sign-in"
         >
           Sign In
         </NavLink>
         <NavLink
-          to="/signup"
+          to="/sign-up"
         >
           Sign Up
         </NavLink>
@@ -37,9 +37,9 @@ export default function SideBar(props) {
 }
 
 SideBar.defaultProps = {
-  adminUser: false,
+  loggedUser: false,
 };
 
 SideBar.propTypes = {
-  adminUser: PropTypes.bool,
+  loggedUser: PropTypes.bool,
 };
