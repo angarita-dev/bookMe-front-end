@@ -1,34 +1,34 @@
-import React from 'react'
-import { NavLink } from "react-router-dom";
-
+import React from 'react';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 export default function SideBar(props) {
-  const { adminUser } = props
+  const { adminUser } = props;
 
-  const reservationsLink = adminUser ?
-    <NavLink to='/reservations'>Reservations</NavLink> :
-    null;
+  const reservationsLink = adminUser
+    ? <NavLink to="/reservations">Reservations</NavLink>
+    : null;
 
   return (
-    <div className='sidebar'>
-      <h1 className='sidebar-title'>
+    <div className="sidebar">
+      <h1 className="sidebar-title">
         Book a Room
       </h1>
-      <div className='sidebar-list'>
+      <div className="sidebar-list">
         <NavLink
-          to='/'
+          to="/"
         >
           Rooms
         </NavLink>
         <NavLink
-          to='/signin'
+          to="/signin"
         >
-          Sign In  
+          Sign In
         </NavLink>
         <NavLink
-          to='/signup'
+          to="/signup"
         >
-          Sign Up  
+          Sign Up
         </NavLink>
         { reservationsLink }
       </div>
@@ -38,4 +38,8 @@ export default function SideBar(props) {
 
 SideBar.defaultProps = {
   adminUser: false,
-}
+};
+
+SideBar.propTypes = {
+  adminUser: PropTypes.bool,
+};
