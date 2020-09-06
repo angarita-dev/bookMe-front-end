@@ -8,10 +8,7 @@ const Room = props => {
     id, title, imgUrl, capacity, privateRoom, amenities, loggedUser,
   } = props;
 
-  const imageStyle = {
-    width: '50%',
-    backgroundImage: `url(${imgUrl}`,
-  };
+  const imageStyle = { backgroundImage: `url(${imgUrl}` };
 
   const image = imgUrl.length
     ? <div className="image-container" style={imageStyle} />
@@ -31,13 +28,11 @@ const Room = props => {
 
   const capacityText = <span className="capacity-text">{capacity}</span>;
 
-  const amenityItems = amenities.length
-    ? null
-    : amenities.map(amenity => (
-      <li className="amenity" key={`amenity-${amenity}`}>
-        { amenity }
-      </li>
-    ));
+  const amenityItems = amenities.map(amenity => (
+    <li className="amenity" key={`amenity-${amenity}`}>
+      { amenity }
+    </li>
+  ));
 
   const amenityList = <ul className="amenity-list">{amenityItems}</ul>;
 
@@ -58,19 +53,23 @@ const Room = props => {
     <div className="room">
       { image }
       <div className="info-container">
-        <div className="info-header">
-          <h3 className="room-title">{ title }</h3>
-          <div className="capacity icon-display">
-            { capacityIcon }
-            { capacityText }
+        <div className="info-top">
+          <div className="info-header">
+            <h3 className="room-title">{ title }</h3>
+            <div className="icons-container">
+              <div className="capacity icon-display">
+                { capacityIcon }
+                { capacityText }
+              </div>
+              <div className="private icon-display">
+                { privateIcon }
+                { privateText }
+              </div>
+            </div>
           </div>
-          <div className="private icon-display">
-            { privateIcon }
-            { privateText }
+          <div className="info-body">
+            {amenitiesComponent}
           </div>
-        </div>
-        <div className="info-body">
-          {amenitiesComponent}
         </div>
         { createReservationLink }
       </div>
