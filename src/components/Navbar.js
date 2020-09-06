@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // Actions
 import { logOut } from '../redux/actions/index';
 
-function SideBar({ loggedUser, logOut }) {
+function Navbar({ loggedUser, logOut }) {
   const reservationsLink = loggedUser
     ? <NavLink to="/reservations">Reservations</NavLink>
     : null;
@@ -29,11 +29,11 @@ function SideBar({ loggedUser, logOut }) {
     );
 
   return (
-    <div className="sidebar">
-      <h1 className="sidebar-title">
+    <div className="navbar">
+      <h1 className="navbar-title">
         Book a Room
       </h1>
-      <div className="sidebar-list">
+      <div className="navbar-list">
         <NavLink
           to="/"
         >
@@ -46,7 +46,7 @@ function SideBar({ loggedUser, logOut }) {
   );
 }
 
-SideBar.propTypes = {
+Navbar.propTypes = {
   loggedUser: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
 };
@@ -55,4 +55,4 @@ const mapStateToProps = state => ({
   loggedUser: state.user.token !== undefined && state.user.token.length > 0,
 });
 
-export default connect(mapStateToProps, { logOut })(SideBar);
+export default connect(mapStateToProps, { logOut })(Navbar);

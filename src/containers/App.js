@@ -13,7 +13,7 @@ import { setRooms } from '../redux/actions/index';
 // Components
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
-import SideBar from '../components/SideBar';
+import Navbar from '../components/Navbar';
 import ReservationList from './ReservationList';
 import RoomList from './RoomList';
 import RoomDisplay from './RoomDisplay';
@@ -29,7 +29,7 @@ const App = ({ setRooms }) => {
   return (
     <Router>
       <div className="App">
-        <SideBar />
+        <Navbar />
         <Switch>
           <Route path="/sign-up">
             <SignUp />
