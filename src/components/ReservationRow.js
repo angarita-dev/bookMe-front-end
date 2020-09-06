@@ -1,21 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-export default function ReservationRow(props) {
-  const { id, from, to } = props;
+// Actions
+import { deleteReservation } from '../redux/actions/index';
 
+// Api caller
+import deleteReservationQuery from '../api/deleteReservation';
+
+const ReservationRow = ({
+  roomID, id, from, to, deleteReservation, token,
+}) => {
   const fromDate = new Date(from).toLocaleString();
   const toDate = new Date(to).toLocaleString();
 
-  const deleteReservation = () => {
-    console.log('Should delete');
+  const handleReservationDelete = () => {
+    deleteReservationQuery(deleteReservation, id, roomID, token);
   };
 
   const deleteIcon = (
     <span
       className="material-icons"
-      onClick={deleteReservation}
-      onKeyDown={deleteReservation}
+      onClick={handleReservationDelete}
+      onKeyDown={handleReservationDelete}
       tabIndex={0}
       role="button"
     >
@@ -30,10 +37,19 @@ export default function ReservationRow(props) {
       <th>{deleteIcon}</th>
     </tr>
   );
-}
+};
 
 ReservationRow.propTypes = {
   id: PropTypes.number.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  roomID: PropTypes.number.isRequired,
+  deleteReservation: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  token: state.user.token,
+});
+
+export default connect(mapStateToProps, { deleteReservation })(ReservationRow);
