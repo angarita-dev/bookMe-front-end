@@ -12,6 +12,7 @@
   box-sizing: border-box;
   padding: 0 50px;
   background-color: white;
+  z-index: 1;
 
   .navbar-title {
     margin: 0;
@@ -34,6 +35,7 @@
         color: $link-grey;
 
         &:hover { color: $link-grey-hover; }
+
         &.active {
           color: $link-grey-disabled;
           cursor: default;
