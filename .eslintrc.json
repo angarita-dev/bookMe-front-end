@@ -14,6 +14,7 @@
   "extends": ["airbnb", "plugin:react/recommended"],
   "plugins": ["react"],
   "rules": {
+    "camelcase": "off",
     "react/forbid-prop-types": "off",
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
