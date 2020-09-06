@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { NavLink, Redirect } from 'react-router-dom';
+
+// Actions
+import { setUser, setReservations } from '../redux/actions/index';
 
 // Reusable components
 import SubmitButton from './SubmitButton';
 
-export default function SignIn() {
+// Api caller
+import callLogin from '../api/login';
+import queryReservations from '../api/queryReservations';
+
+function SignIn({ setUser, setReservations }) {
   const useInput = ({ type }) => {
     const [value, setValue] = useState('');
     const input = (
@@ -17,12 +26,26 @@ export default function SignIn() {
     return [value, input];
   };
 
+  const [waitingLogIn, setWaitingLogIn] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [email, emailInput] = useInput({ type: 'email' });
   const [password, passwordInput] = useInput({ type: 'password' });
 
   const onSubmit = () => {
-    console.log(`email: ${email}, password: ${password}`);
+    if (waitingLogIn) return;
+    setWaitingLogIn(true);
+
+    const onResponse = () => { setWaitingLogIn(false); };
+
+    const onSuccess = token => {
+      setRedirect(true);
+      queryReservations(setReservations, token);
+    };
+
+    callLogin(email, password, setUser, onResponse, onSuccess);
   };
+
+  if (redirect) return <Redirect to="/" />;
 
   return (
     <div className="sign-in">
@@ -45,3 +68,10 @@ export default function SignIn() {
     </div>
   );
 }
+
+SignIn.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  setReservations: PropTypes.func.isRequired,
+};
+
+export default connect(() => ({}), { setUser, setReservations })(SignIn);
