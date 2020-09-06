@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import DateTime from 'react-datetime';
+import { connect } from 'react-redux';
+
+// Actions
+import { addReservation } from '../redux/actions/index';
 
 // Reusable component
 import SubmitButton from './SubmitButton';
 
-export default function CreateReservation() {
+// Api caller
+import apiCaller from '../api/apiCaller';
+
+const CreateReservation = ({ authToken, roomID, addReservation }) => {
   const useDate = () => {
     const [value, setValue] = useState('');
 
@@ -12,7 +20,9 @@ export default function CreateReservation() {
       return current.isAfter(DateTime.moment());
     };
 
-    const handleChange = currentValue => { setValue(currentValue.toISOString()); };
+    const handleChange = currentValue => {
+      setValue(currentValue.format());
+    };
 
     const date = (
       <DateTime
@@ -24,11 +34,34 @@ export default function CreateReservation() {
     return [value, date];
   };
 
+  const [waitingSubmit, setWaitingSubmit] = useState(false);
   const [fromDate, fromDateElement] = useDate();
   const [toDate, toDateElement] = useDate();
 
   const onSubmitClick = () => {
-    console.log(`fromDate: ${fromDate}, toDate: ${toDate}`);
+    if (waitingSubmit) return;
+
+    const formData = new FormData();
+
+    console.log(fromDate);
+    formData.append('start_time', fromDate);
+    formData.append('end_time', toDate);
+    formData.append('room_id', roomID);
+
+    const waiting = () => {
+      setWaitingSubmit(true);
+    };
+
+    const response = (status, json) => {
+      setWaitingSubmit(false);
+      if (status === 201) {
+        addReservation(json);
+      } else {
+        console.log(`error ${json}`);
+      }
+    };
+
+    apiCaller('POST', '/reservations', formData, waiting, response, authToken);
   };
 
   return (
@@ -48,4 +81,16 @@ export default function CreateReservation() {
       <SubmitButton handleSubmit={onSubmitClick} buttonText="Reserve" />
     </div>
   );
-}
+};
+
+const mapStateToProps = state => ({
+  authToken: state.user.token,
+});
+
+CreateReservation.propTypes = {
+  authToken: PropTypes.string.isRequired,
+  roomID: PropTypes.number.isRequired,
+  addReservation: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, { addReservation })(CreateReservation);
