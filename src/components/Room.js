@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default function Room(props) {
+const Room = props => {
   const {
-    id, title, imgUrl, capacity, privateRoom, amenities, displayReservation,
+    id, title, imgUrl, capacity, privateRoom, amenities, loggedUser,
   } = props;
 
   const imageStyle = {
@@ -30,11 +31,13 @@ export default function Room(props) {
 
   const capacityText = <span className="capacity-text">{capacity}</span>;
 
-  const amenityItems = amenities.map(amenity => (
-    <li className="amenity" key={`amenity-${amenity}`}>
-      { amenity }
-    </li>
-  ));
+  const amenityItems = amenities.length
+    ? null
+    : amenities.map(amenity => (
+      <li className="amenity" key={`amenity-${amenity}`}>
+        { amenity }
+      </li>
+    ));
 
   const amenityList = <ul className="amenity-list">{amenityItems}</ul>;
 
@@ -47,9 +50,9 @@ export default function Room(props) {
     )
     : null;
 
-  const createReservationLink = displayReservation
+  const createReservationLink = loggedUser
     ? <Link to={`/room/${id}`} className="reserve-link">Reserve room.</Link>
-    : null;
+    : <Link to="/sign-in" className="reserve-link">Sign in to reserve.</Link>;
 
   return (
     <div className="room">
@@ -73,28 +76,25 @@ export default function Room(props) {
       </div>
     </div>
   );
-}
+};
 
 Room.defaultProps = {
-  id: 1,
-  imgUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-  title: 'Hot desk',
-  capacity: 1,
-  privateRoom: false,
-  amenities: [
-    'Coffee machine',
-    'Water',
-    'Cable internet',
-  ],
-  displayReservation: false,
+  amenities: [],
+  imgUrl: '',
 };
 
 Room.propTypes = {
-  id: PropTypes.number,
-  title: PropTypes.string,
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  capacity: PropTypes.number.isRequired,
+  privateRoom: PropTypes.bool.isRequired,
+  loggedUser: PropTypes.bool.isRequired,
   imgUrl: PropTypes.string,
-  capacity: PropTypes.number,
-  privateRoom: PropTypes.bool,
   amenities: PropTypes.array,
-  displayReservation: PropTypes.bool,
 };
+
+const mapStateToProps = state => ({
+  loggedUser: state.user.token !== undefined && state.user.token.length > 0,
+});
+
+export default connect(mapStateToProps)(Room);
