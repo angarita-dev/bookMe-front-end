@@ -48,18 +48,22 @@ function SignIn({ setUser, setReservations }) {
   if (redirect) return <Redirect to="/" />;
 
   return (
-    <div className="sign-in">
+    <div className="user-form">
       <h1>Sign in</h1>
       <div className="display-container">
-        <h2>Email</h2>
-        {emailInput}
-        <h2>Password</h2>
-        {passwordInput}
+        <div className="field">
+          <h2>Email:</h2>
+          {emailInput}
+        </div>
+        <div className="field">
+          <h2>Password:</h2>
+          {passwordInput}
+        </div>
         <SubmitButton handleSubmit={onSubmit} />
         <div className="link-container">
           <p>
             Don&apos;t have an account?
-            <NavLink to="/sign-up">Sign Up</NavLink>
+            <NavLink to="/sign-up"> Sign Up </NavLink>
             {' '}
             instead.
           </p>

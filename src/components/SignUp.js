@@ -62,17 +62,25 @@ function SignUp({ setUser }) {
   if (redirect) return <Redirect to="/" />;
 
   return (
-    <div className="sign-up">
+    <div className="user-form large">
       <h1>Sign Up</h1>
       <div className="display-container">
-        <h2>Name</h2>
-        {nameInput}
-        <h2>Email</h2>
-        {emailInput}
-        <h2>Password</h2>
-        {passwordInput}
-        <h2>Password confirmation</h2>
-        {passwordConfirmationInput}
+        <div className="field">
+          <h2>Name:</h2>
+          {nameInput}
+        </div>
+        <div className="field">
+          <h2>Email:</h2>
+          {emailInput}
+        </div>
+        <div className="field">
+          <h2>Password:</h2>
+          {passwordInput}
+        </div>
+        <div className="field">
+          <h2>Password confirmation:</h2>
+          {passwordConfirmationInput}
+        </div>
         <SubmitButton handleSubmit={onSubmit} />
         <div className="link-container">
           <p>
