@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import ReservationRow from '../components/ReservationRow';
 
 const ReservationList = ({ reservations, roomID }) => {
+  const reservationCount = reservations.length;
+  const reservationTitle = reservationCount ?
+    `You have ${reservationCount} reservations for this workspace.` :
+    null;
+
   const reservationItems = reservations.map(reservation => (
     <ReservationRow
       key={reservation.id}
@@ -16,8 +21,8 @@ const ReservationList = ({ reservations, roomID }) => {
     />
   ));
 
-  return (
-    <table>
+  const reservationTable = reservationCount ?
+    (<table>
       <thead>
         <tr>
           <th>From</th>
@@ -27,7 +32,14 @@ const ReservationList = ({ reservations, roomID }) => {
       <tbody>
         { reservationItems }
       </tbody>
-    </table>
+    </table>) :
+    null;
+
+  return (
+    <div className="reservations-container">
+      <h1 className="reservations-title">{ reservationTitle }</h1>
+      { reservationTable }
+    </div>
   );
 };
 

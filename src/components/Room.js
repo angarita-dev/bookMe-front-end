@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -55,7 +55,9 @@ const Room = props => {
       <div className="info-container">
         <div className="info-top">
           <div className="info-header">
-            <h3 className="room-title">{ title }</h3>
+            <Link to={`/room/${roomID}`}>
+              <h3 className="room-title">{ title }</h3>
+            </Link>
             <div className="icons-container">
               <div className="capacity icon-display">
                 { capacityIcon }

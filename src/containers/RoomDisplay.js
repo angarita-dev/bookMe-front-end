@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
@@ -12,13 +12,12 @@ const RoomDisplay = ({ rooms }) => {
   let { id } = useParams();
   id = parseInt(id, 0);
 
-  console.log(rooms);
-  const room = rooms[id];
+  const room = rooms.filter(room => room.id === id)[0];
   const roomComponent = room === undefined
-    ? null
+    ? <Redirect to='/' />
     : (
       <Room
-        roomID={id}
+        roomID={room.id}
         title={room.name}
         capacity={room.capacity}
         privateRoom={room.private}

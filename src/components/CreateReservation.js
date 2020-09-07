@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DateTime from 'react-datetime';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Actions
@@ -38,6 +39,14 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
   const [fromDate, fromDateElement] = useDate();
   const [toDate, toDateElement] = useDate();
 
+  if (authToken === '') {
+    return (
+      <div className='create-reservation short'>
+        <Link to="/sign-in" className="reserve-link">Sign in to reserve.</Link>
+      </div>
+    );
+  }
+
   const onSubmitClick = () => {
     if (waitingSubmit) return;
 
@@ -66,16 +75,18 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
 
   return (
     <div className="create-reservation" id="create-reservation">
-      <h3>Would like to reserve this room?</h3>
-      <h4>Choose your time!</h4>
-      <div className="input-container">
-        <div className="start-datetime">
-          <span>From:</span>
-          { fromDateElement }
-        </div>
-        <div className="to-datetime">
-          <span>To:</span>
-          { toDateElement }
+      <div className="text-container">
+        <h3>Would like to reserve this room?</h3>
+        <h4>Choose your time!</h4>
+        <div className="input-container">
+          <div className="start-datetime">
+            <span>From:</span>
+            { fromDateElement }
+          </div>
+          <div className="to-datetime">
+            <span>To:</span>
+            { toDateElement }
+          </div>
         </div>
       </div>
       <SubmitButton handleSubmit={onSubmitClick} buttonText="Reserve" />
@@ -83,9 +94,13 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  authToken: state.user.token,
-});
+const mapStateToProps = state => {
+  const token = state.user.token === undefined ? '' : state.user.token;
+
+  return {
+    authToken: token,
+  }
+};
 
 CreateReservation.propTypes = {
   authToken: PropTypes.string.isRequired,
