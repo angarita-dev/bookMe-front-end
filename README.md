@@ -2,16 +2,18 @@
 
 This project is the front end for the [BookMe! API service](https://github.com/codingAngarita/bookMe)
 
+![preview](https://i.imgur.com/yN9mfHd.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
 
-| Command | Description |
-------------------------
-| `npm start` | Runs the app in the development mode. [http://localhost:3000](http://localhost:3000) |
-| `npm run build` | Builds the app for production to the `build` folder. |
-| `npm run lint` | Runs configured linters for `JS` and `Scss/CSS` |
-| `npm run lint-fix` | Runs configured linters for `JS` and `Scss/CSS` with `--fix` flags |
+|      Command       | Description                                                                          |
+|------------------- | ------------------------------------------------------------------------------------ | 
+|    `npm start`     | Runs the app in the development mode. [http://localhost:3000](http://localhost:3000) |
+|  `npm run build`   | Builds the app for production to the `build` folder.                                 |
+|    `npm run lint`  | Runs configured linters for `JS` and `Scss/CSS`                                      |
+| `npm run lint-fix` | Runs configured linters for `JS` and `Scss/CSS` with `--fix` flags                   |
 
 ## Learn More
 
