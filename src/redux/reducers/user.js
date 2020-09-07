@@ -1,16 +1,18 @@
 import { SET_USER, LOG_OUT } from '../actions/index';
 
-const user = (state = {}, action) => {
+const user = (state = { loggedIn: false }, action) => {
   switch (action.type) {
     case SET_USER: {
-      const { user, token } = action.result;
+      const { user, loggedIn } = action.result;
       return {
-        info: { ...user },
-        token,
+        user,
+        loggedIn,
       };
     }
     case LOG_OUT: {
-      return { };
+      return {
+        loggedIn: false,
+      };
     }
     default:
       return state;

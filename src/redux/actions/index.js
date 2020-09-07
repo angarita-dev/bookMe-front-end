@@ -36,9 +36,9 @@ export const setRoom = room => ({
   room,
 });
 
-export const setUser = user => ({
+export const setUser = (user, loggedIn) => ({
   type: SET_USER,
-  result: user,
+  result: { user, loggedIn },
 });
 
 export const logOut = () => ({
