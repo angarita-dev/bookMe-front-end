@@ -13,7 +13,7 @@ import SubmitButton from './SubmitButton';
 import callLogin from '../api/login';
 import queryReservations from '../api/queryReservations';
 
-function SignIn({ setUser, setReservations, loggedIn }) {
+function SignIn({ setUser, setReservations, loggedIn, minLength, }) {
   const useInput = ({ type }) => {
     const [value, setValue] = useState('');
     const input = (
@@ -21,6 +21,8 @@ function SignIn({ setUser, setReservations, loggedIn }) {
         value={value}
         onChange={e => setValue(e.target.value)}
         type={type}
+        minLength={minLength}
+        required
       />
     );
     return [value, input];
@@ -28,11 +30,15 @@ function SignIn({ setUser, setReservations, loggedIn }) {
 
   const [waitingLogIn, setWaitingLogIn] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const [email, emailInput] = useInput({ type: 'email' });
-  const [password, passwordInput] = useInput({ type: 'password' });
+  const [email, emailInput] = useInput({ type: 'email', minLength: 0 });
+  const [password, passwordInput] = useInput({ type: 'password', minLength: 6 });
+
+  const validate = () => {
+    return (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email)) && (password.length > 6);
+  }
 
   const onSubmit = () => {
-    if (waitingLogIn) return;
+    if (waitingLogIn || !validate()) return;
     setWaitingLogIn(true);
 
     const onResponse = () => { setWaitingLogIn(false); };
@@ -51,15 +57,17 @@ function SignIn({ setUser, setReservations, loggedIn }) {
     <div className="user-form">
       <h1>Sign in</h1>
       <div className="display-container">
-        <div className="field">
-          <h2>Email:</h2>
-          {emailInput}
-        </div>
-        <div className="field">
-          <h2>Password:</h2>
-          {passwordInput}
-        </div>
-        <SubmitButton handleSubmit={onSubmit} />
+        <form>
+          <div className="field">
+            <h2>Email:</h2>
+            {emailInput}
+          </div>
+          <div className="field">
+            <h2>Password:</h2>
+            {passwordInput}
+          </div>
+          <SubmitButton handleSubmit={onSubmit} />
+        </form>
         <div className="link-container">
           <p>
             Don&apos;t have an account?

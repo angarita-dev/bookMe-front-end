@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 export default function SubmitButton(props) {
   const { handleSubmit, buttonText } = props;
   return (
-    <div
+    <input
+      type="submit"
+      value={buttonText}
       className="submit-button"
       onClick={handleSubmit}
       onKeyDown={handleSubmit}
       tabIndex={0}
       role="button"
-    >
-      { buttonText }
-    </div>
+    />
   );
 }
 
