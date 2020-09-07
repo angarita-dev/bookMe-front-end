@@ -27,17 +27,17 @@
     div {
       display: flex;
       flex-direction: row;
-      color: $link-grey;
+      color: $grey;
       font-family: $title-font;
 
       a {
         margin-left: 25px;
-        color: $link-grey;
+        color: $light-grey;
 
-        &:hover { color: $link-grey-hover; }
+        &:hover { color: $dark-grey; }
 
         &.active {
-          color: $link-grey-disabled;
+          color: $grey;
           cursor: default;
         }
       }
