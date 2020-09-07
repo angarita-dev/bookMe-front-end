@@ -9,8 +9,10 @@ const login = (email, password, setUser, onResponse, onSuccess) => {
   const response = (status, json) => {
     onResponse();
     if (status === 200) {
-      setUser(json);
-      onSuccess(json.token);
+      const loggedIn = json.token !== undefined && json.token.length > 0;
+      setUser(json, loggedIn);
+      onSuccess();
+      localStorage.setItem('token', json.token);
     } else {
       console.log('error');
     }

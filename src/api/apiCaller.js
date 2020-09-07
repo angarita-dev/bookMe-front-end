@@ -4,12 +4,13 @@ function apiCaller(
   formData = null,
   onSubmit = () => {},
   onReady = () => {},
-  token = '',
+  tokenNeeded,
 ) {
   const newEndpoint = endpoint[0] === '/' ? endpoint : `/${endpoint}`;
   // const requestUrl = `http://181.58.38.50:3001${endpoint}`;
   const requestUrl = `https://book-me-api-angarita-dev.herokuapp.com${newEndpoint}`;
-  const authToken = `Bearer ${token}`;
+  const token = localStorage.getItem('token');
+  const authToken = tokenNeeded? `Bearer ${token}` : '';
 
   const req = new XMLHttpRequest();
   req.open(method, requestUrl, true);
@@ -22,7 +23,7 @@ function apiCaller(
       onReady(req.status, json);
     }
   };
-  req.setRequestHeader('Authorization', authToken);
+  if (authToken !== '') req.setRequestHeader('Authorization', authToken);
   req.send(formData);
 }
 

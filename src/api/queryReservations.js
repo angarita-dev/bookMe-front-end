@@ -1,6 +1,6 @@
 import apiCaller from './apiCaller';
 
-const queryReservations = (setReservations, token) => {
+const queryReservations = setReservations => {
   const response = (status, json) => {
     if (status === 200) {
       setReservations(json);
@@ -9,7 +9,7 @@ const queryReservations = (setReservations, token) => {
     }
   };
 
-  apiCaller('GET', '/reservations', null, () => {}, response, token);
+  apiCaller('GET', '/reservations', null, () => {}, response, true);
 };
 
 export default queryReservations;
