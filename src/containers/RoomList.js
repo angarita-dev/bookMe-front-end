@@ -9,7 +9,7 @@ const RoomList = ({ rooms }) => {
   const roomElements = rooms.map(room => (
     <Room
       key={room.id}
-      id={room.id}
+      roomID={room.id}
       title={room.name}
       capacity={room.capacity}
       privateRoom={room.private}

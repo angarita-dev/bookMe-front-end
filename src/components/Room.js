@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const Room = props => {
   const {
-    id, title, imgUrl, capacity, privateRoom, amenities, loggedUser,
+    roomID, title, imgUrl, capacity, privateRoom, amenities, loggedUser,
   } = props;
 
   const imageStyle = { backgroundImage: `url(${imgUrl}` };
@@ -46,7 +46,7 @@ const Room = props => {
     : null;
 
   const createReservationLink = loggedUser
-    ? <Link to={`/room/${id}`} className="reserve-link">Reserve room.</Link>
+    ? <Link to={`/room/${roomID}`} className="reserve-link">Reserve room.</Link>
     : <Link to="/sign-in" className="reserve-link">Sign in to reserve.</Link>;
 
   return (
@@ -83,7 +83,7 @@ Room.defaultProps = {
 };
 
 Room.propTypes = {
-  id: PropTypes.number.isRequired,
+  roomID: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   capacity: PropTypes.number.isRequired,
   privateRoom: PropTypes.bool.isRequired,
