@@ -13,7 +13,7 @@ import SubmitButton from './SubmitButton';
 import callLogin from '../api/login';
 import queryReservations from '../api/queryReservations';
 
-function SignIn({ setUser, setReservations }) {
+function SignIn({ setUser, setReservations, loggedIn }) {
   const useInput = ({ type }) => {
     const [value, setValue] = useState('');
     const input = (
@@ -45,7 +45,7 @@ function SignIn({ setUser, setReservations }) {
     callLogin(email, password, setUser, onResponse, onSuccess);
   };
 
-  if (redirect) return <Redirect to="/" />;
+  if (loggedIn || redirect) return <Redirect to="/" />;
 
   return (
     <div className="user-form">
@@ -76,6 +76,11 @@ function SignIn({ setUser, setReservations }) {
 SignIn.propTypes = {
   setUser: PropTypes.func.isRequired,
   setReservations: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 };
 
-export default connect(() => ({}), { setUser, setReservations })(SignIn);
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+});
+
+export default connect(mapStateToProps, { setUser, setReservations })(SignIn);

@@ -12,7 +12,7 @@ import SubmitButton from './SubmitButton';
 // Api caller
 import apiCaller from '../api/apiCaller';
 
-function SignUp({ setUser }) {
+function SignUp({ setUser, loggedIn, }) {
   const useInput = ({ type }) => {
     const [value, setValue] = useState('');
     const input = (
@@ -60,7 +60,7 @@ function SignUp({ setUser }) {
     apiCaller('POST', '/users', formData, waiting, response);
   };
 
-  if (redirect) return <Redirect to="/" />;
+  if (loggedIn || redirect) return <Redirect to="/" />;
 
   return (
     <div className="user-form large">
@@ -99,6 +99,11 @@ function SignUp({ setUser }) {
 
 SignUp.propTypes = {
   setUser: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 };
 
-export default connect(() => ({}), { setUser })(SignUp);
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+});
+
+export default connect(mapStateToProps, { setUser })(SignUp);
