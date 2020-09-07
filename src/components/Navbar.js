@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Actions
@@ -30,11 +30,14 @@ function Navbar({ loggedUser, logOut }) {
 
   return (
     <div className="navbar">
-      <h1 className="navbar-title">
-        Book a Room
-      </h1>
+      <Link to="/">
+        <h1 className="navbar-title">
+          Book a Room
+        </h1>
+      </Link>
       <div className="navbar-list">
         <NavLink
+          exact
           to="/"
         >
           Rooms
