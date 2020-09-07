@@ -1,0 +1,55 @@
+.room-display {
+  width: 100%;
+
+  .room {
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    flex-direction: column;
+
+    .image-container { min-height: 70vh; }
+
+    .info-container {
+      width: 100%;
+
+      .info-top {
+        display:flex;
+        justify-content: space-evenly;
+        text-align: center !important;
+
+
+        .room-title { font-size: 2em !important; }
+
+        .icons-container { justify-content: space-evenly; }
+
+        .amenity-title {
+          margin-top: 0;
+          margin-bottom: calc(0.5em + 32px);
+          font-size: 1.5em !important;
+        }
+
+        .amenity-list {
+          display: flex;
+          justify-content: space-evenly;
+          flex-wrap: wrap;
+          flex-direction: row;
+          text-align: left;
+          margin-top: 25px;
+
+          .amenity {
+            width: auto !important;
+            margin-left: 10px;
+            box-sizing: border-box;
+          }
+        }
+      }
+
+      .reserve-link { display: none !important; }
+    }
+  }
+}
+
+@media(max-width: 560px) {
+  flex-direction: column;
+}
+
