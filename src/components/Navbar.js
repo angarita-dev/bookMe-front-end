@@ -11,8 +11,13 @@ function Navbar({ loggedIn, logOut }) {
     ? <NavLink to="/reservations">Reservations</NavLink>
     : null;
 
+  const onLogout = () => {
+    localStorage.setItem('token', '');
+    logOut();
+  };
+
   const accountLinks = loggedIn
-    ? <NavLink to="/" onClick={logOut}>Log out</NavLink>
+    ? <NavLink to="/" onClick={onLogout}>Log out</NavLink>
     : (
       <div>
         <NavLink

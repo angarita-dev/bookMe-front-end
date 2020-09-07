@@ -25,7 +25,7 @@ const App = ({ setRooms, setUser }) => {
   useEffect(() => {
     queryRooms(setRooms);
     const token = localStorage.getItem('token');
-    if (token !== undefined && token.length > 0) setUser({}, true);
+    if (token !== null && token.length > 0) setUser({}, true);
   }, []);
 
   return (
