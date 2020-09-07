@@ -1,0 +1,36 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import './shared/variables';
+@import './components/navbar';
+@import './components/roomList';
+@import './components/room';
+@import './components/userForms';
+@import './components/button';
+@import './components/roomDisplay';
+@import './components/dateTime';
+@import './components/reservationsList';
+@import './components/createReservation';
+
+html,
+body,
+#root,
+.App {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.App {
+  padding-top: 90px;
+  box-sizing: border-box;
+  font-family: $text-font;
+}
+
+a {
+  &,
+  &:visited,
+  &:active {
+    transition: ease-out 0.2s color;
+    color: inherit;
+    text-decoration: none;
+  }
+}
