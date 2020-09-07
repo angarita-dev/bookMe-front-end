@@ -1,6 +1,7 @@
 # BookMe!
 
-This project is the front end for the [BookMe! API service](https://github.com/codingAngarita/bookMe)
+### This project is the front end for the [BookMe! API service.](https://github.com/codingAngarita/bookMe)
+### You can check an online version [here.](https://afternoon-depths-37985.herokuapp.com/)
 
 ![preview](https://i.imgur.com/yN9mfHd.png)
 
