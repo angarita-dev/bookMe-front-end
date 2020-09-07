@@ -21,7 +21,7 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
       return current.isAfter(DateTime.moment());
     };
 
-    const handleChange = currentValue => {
+    const handleChange = (currentValue, e) => {
       setValue(currentValue.format());
     };
 
@@ -29,6 +29,7 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
       <DateTime
         onChange={handleChange}
         isValidDate={valid}
+        inputProps={{readOnly: true}}
       />
     );
 
