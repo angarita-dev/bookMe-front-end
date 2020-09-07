@@ -4,8 +4,6 @@ const queryRooms = setRooms => {
   const response = (status, json) => {
     if (status === 200) {
       setRooms(json);
-    } else {
-      console.log('error');
     }
   };
 

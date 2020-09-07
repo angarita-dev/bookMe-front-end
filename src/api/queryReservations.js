@@ -4,8 +4,6 @@ const queryReservations = setReservations => {
   const response = (status, json) => {
     if (status === 200) {
       setReservations(json);
-    } else {
-      console.log('error');
     }
   };
 

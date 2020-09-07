@@ -13,15 +13,13 @@ import SubmitButton from './SubmitButton';
 // Api caller
 import apiCaller from '../api/apiCaller';
 
-const CreateReservation = ({ authToken, roomID, addReservation }) => {
+const CreateReservation = ({ loggedIn, roomID, addReservation }) => {
   const useDate = () => {
     const [value, setValue] = useState('');
 
-    const valid = function (current) {
-      return current.isAfter(DateTime.moment());
-    };
+    const valid = current => current.isAfter(DateTime.moment());
 
-    const handleChange = (currentValue, e) => {
+    const handleChange = currentValue => {
       setValue(currentValue.format());
     };
 
@@ -29,7 +27,7 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
       <DateTime
         onChange={handleChange}
         isValidDate={valid}
-        inputProps={{readOnly: true}}
+        inputProps={{ readOnly: true }}
       />
     );
 
@@ -40,9 +38,9 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
   const [fromDate, fromDateElement] = useDate();
   const [toDate, toDateElement] = useDate();
 
-  if (authToken === '') {
+  if (!loggedIn) {
     return (
-      <div className='create-reservation short'>
+      <div className="create-reservation short">
         <Link to="/sign-in" className="reserve-link">Sign in to reserve.</Link>
       </div>
     );
@@ -53,7 +51,6 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
 
     const formData = new FormData();
 
-    console.log(fromDate);
     formData.append('start_time', fromDate);
     formData.append('end_time', toDate);
     formData.append('room_id', roomID);
@@ -66,8 +63,6 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
       setWaitingSubmit(false);
       if (status === 201) {
         addReservation(json);
-      } else {
-        console.log(`error ${json}`);
       }
     };
 
@@ -105,4 +100,4 @@ const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
 });
 
-export default connect(() => ({}), { addReservation })(CreateReservation);
+export default connect(mapStateToProps, { addReservation })(CreateReservation);

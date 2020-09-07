@@ -3,7 +3,6 @@ import {
 } from '../actions/index';
 
 export default function rooms(state = [], action) {
-  console.log(action);
   switch (action.type) {
     case SET_ROOMS:
       return action.rooms;
@@ -57,7 +56,6 @@ export default function rooms(state = [], action) {
       });
     }
     case DELETE_RESERVATION: {
-      console.log(action);
       const { roomID, reservationID } = action;
       const newState = state.map(room => {
         const newRoom = room;

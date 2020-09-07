@@ -5,8 +5,6 @@ const queryDeleteReservation = (deleteReservation, id, roomID) => {
     if (status === 204) {
       const reservation = { id, roomID };
       deleteReservation(reservation);
-    } else {
-      console.log('error');
     }
   };
 

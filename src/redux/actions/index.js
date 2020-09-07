@@ -17,14 +17,11 @@ export const addReservation = reservation => ({
   roomID: reservation.reservation.room.id,
 });
 
-export const deleteReservation = reservation => {
-  console.log(reservation);
-  return {
-    type: DELETE_RESERVATION,
-    roomID: reservation.roomID,
-    reservationID: reservation.id,
-  };
-};
+export const deleteReservation = reservation => ({
+  type: DELETE_RESERVATION,
+  roomID: reservation.roomID,
+  reservationID: reservation.id,
+});
 
 export const setRooms = result => ({
   type: SET_ROOMS,

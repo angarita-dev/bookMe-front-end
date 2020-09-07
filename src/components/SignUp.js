@@ -12,13 +12,16 @@ import SubmitButton from './SubmitButton';
 // Api caller
 import apiCaller from '../api/apiCaller';
 
-function SignUp({ setUser, loggedIn, minLength, onChange}) {
-  const useInput = ({ type }) => {
+function SignUp({ setUser, loggedIn }) {
+  const useInput = ({ type, onChange, minLength = 0 }) => {
     const [value, setValue] = useState('');
     const input = (
       <input
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          setValue(e.target.value);
+          if (onChange !== undefined) onChange(e);
+        }}
         type={type}
         minLength={minLength}
         required
@@ -27,19 +30,27 @@ function SignUp({ setUser, loggedIn, minLength, onChange}) {
     return [value, input];
   };
 
-
   const [waitingSignUp, setWaitingSignUp] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [name, nameInput] = useInput({ type: 'text' });
   const [email, emailInput] = useInput({ type: 'email' });
-  const [password, passwordInput] = useInput({ type: 'password' });
-  const [passwordConfirmation, passwordConfirmationInput] = useInput({ type: 'password'});
+  const [password, passwordInput] = useInput({ type: 'password', minLength: 6 });
 
-  const validate = () => {
-    return (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email))
+  const checkConfirmation = e => {
+    if (password !== e.target.value) {
+      e.target.setCustomValidity("Passwords don't match");
+    } else {
+      e.target.setCustomValidity('');
+    }
+  };
+
+  const [passwordConfirmation, passwordConfirmationInput] = useInput(
+    { type: 'password', onChange: checkConfirmation },
+  );
+
+  const validate = () => (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email))
       && (password.length > 6)
       && (password === passwordConfirmation);
-  }
 
   const onSubmit = () => {
     if (waitingSignUp || !validate()) return;
@@ -61,8 +72,6 @@ function SignUp({ setUser, loggedIn, minLength, onChange}) {
         setUser(json);
         localStorage.setItem('token', json.token);
         setRedirect(true);
-      } else {
-        console.log(`error ${json}`);
       }
     };
 
@@ -82,39 +91,39 @@ function SignUp({ setUser, loggedIn, minLength, onChange}) {
           </div>
           <div className="field">
             <h2>Email:</h2>
-          {emailInput}
+            {emailInput}
           </div>
           <div className="field">
             <h2>Password:</h2>
-          {passwordInput}
+            {passwordInput}
           </div>
-        <div className="field">
-          <h2>Password confirmation:</h2>
-          {passwordConfirmationInput}
-        </div>
-        <SubmitButton handleSubmit={onSubmit} />
+          <div className="field">
+            <h2>Password confirmation:</h2>
+            {passwordConfirmationInput}
+          </div>
+          <SubmitButton handleSubmit={onSubmit} />
         </form>
         <div className="link-container">
           <p>
             Already have an account?
-          {' '}
+            {' '}
             <NavLink to="/sign-in">Sign In</NavLink>
-          {' '}
+            {' '}
             instead.
           </p>
         </div>
       </div>
     </div>
   );
-  }
+}
 
-    SignUp.propTypes = {
-    setUser: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-  };
+SignUp.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+};
 
-    const mapStateToProps = state => ({
-    loggedIn: state.user.loggedIn,
-  });
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+});
 
-    export default connect(mapStateToProps, { setUser })(SignUp);
+export default connect(mapStateToProps, { setUser })(SignUp);

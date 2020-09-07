@@ -13,8 +13,10 @@ import SubmitButton from './SubmitButton';
 import callLogin from '../api/login';
 import queryReservations from '../api/queryReservations';
 
-function SignIn({ setUser, setReservations, loggedIn, minLength, }) {
-  const useInput = ({ type }) => {
+function SignIn({
+  setUser, setReservations, loggedIn,
+}) {
+  const useInput = ({ type, minLength = 0 }) => {
     const [value, setValue] = useState('');
     const input = (
       <input
@@ -33,9 +35,7 @@ function SignIn({ setUser, setReservations, loggedIn, minLength, }) {
   const [email, emailInput] = useInput({ type: 'email', minLength: 0 });
   const [password, passwordInput] = useInput({ type: 'password', minLength: 6 });
 
-  const validate = () => {
-    return (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email)) && (password.length > 6);
-  }
+  const validate = () => (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email)) && (password.length > 6);
 
   const onSubmit = () => {
     if (waitingLogIn || !validate()) return;

@@ -13,8 +13,6 @@ const login = (email, password, setUser, onResponse, onSuccess) => {
       setUser(json, loggedIn);
       onSuccess();
       localStorage.setItem('token', json.token);
-    } else {
-      console.log('error');
     }
   };
 

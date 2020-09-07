@@ -7,9 +7,9 @@ import ReservationRow from '../components/ReservationRow';
 
 const ReservationList = ({ reservations, roomID }) => {
   const reservationCount = reservations.length;
-  const reservationTitle = reservationCount ?
-    `You have ${reservationCount} reservations for this workspace.` :
-    null;
+  const reservationTitle = reservationCount
+    ? `You have ${reservationCount} reservations for this workspace.`
+    : null;
 
   const reservationItems = reservations.map(reservation => (
     <ReservationRow
@@ -21,19 +21,21 @@ const ReservationList = ({ reservations, roomID }) => {
     />
   ));
 
-  const reservationTable = reservationCount ?
-    (<table>
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-        </tr>
-      </thead>
-      <tbody>
-        { reservationItems }
-      </tbody>
-    </table>) :
-    null;
+  const reservationTable = reservationCount
+    ? (
+      <table>
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+          </tr>
+        </thead>
+        <tbody>
+          { reservationItems }
+        </tbody>
+      </table>
+    )
+    : null;
 
   return (
     <div className="reservations-container">

@@ -10,7 +10,7 @@ function apiCaller(
   // const requestUrl = `http://181.58.38.50:3001${endpoint}`;
   const requestUrl = `https://book-me-api-angarita-dev.herokuapp.com${newEndpoint}`;
   const token = localStorage.getItem('token');
-  const authToken = tokenNeeded? `Bearer ${token}` : '';
+  const authToken = tokenNeeded ? `Bearer ${token}` : '';
 
   const req = new XMLHttpRequest();
   req.open(method, requestUrl, true);

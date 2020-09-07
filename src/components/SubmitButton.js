@@ -11,7 +11,6 @@ export default function SubmitButton(props) {
       onClick={handleSubmit}
       onKeyDown={handleSubmit}
       tabIndex={0}
-      role="button"
     />
   );
 }

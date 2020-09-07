@@ -14,7 +14,7 @@ const RoomDisplay = ({ rooms }) => {
 
   const room = rooms.filter(room => room.id === id)[0];
   const roomComponent = room === undefined
-    ? <Redirect to='/' />
+    ? <Redirect to="/" />
     : (
       <Room
         roomID={room.id}

@@ -13,10 +13,9 @@
       width: 100%;
 
       .info-top {
-        display:flex;
+        display: flex;
         justify-content: space-evenly;
         text-align: center !important;
-
 
         .room-title { font-size: 2em !important; }
 
@@ -49,7 +48,6 @@
   }
 }
 
-@media(max-width: 560px) {
+@media (max-width: 560px) {
   flex-direction: column;
 }
-

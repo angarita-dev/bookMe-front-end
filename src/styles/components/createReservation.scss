@@ -8,7 +8,7 @@
   text-align: center;
 
   h3 { margin-top: 0; }
-  h4 { color: $grey }
+  h4 { color: $grey; }
 
   .text-container {
     display: flex;
@@ -29,7 +29,7 @@
 
         .rdt {
           input {
-            width: 90%; 
+            width: 90%;
             border: none;
             margin-top: 15px;
             border-bottom: 1px solid $border-grey;
@@ -39,7 +39,7 @@
             color: $dark-grey;
           }
         }
-        
+
         .rdtPicker { margin-bottom: 50px; }
       }
     }
@@ -61,7 +61,6 @@
       border-radius: 15px;
       background-color: $high-blue;
       cursor: pointer;
-    } 
+    }
   }
 }
-
