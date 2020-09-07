@@ -50,6 +50,7 @@ function SignUp({ setUser }) {
       setWaitingSignUp(false);
       if (status === 201) {
         setUser(json);
+        localStorage.setItem('token', json.token);
         setRedirect(true);
       } else {
         console.log(`error ${json}`);

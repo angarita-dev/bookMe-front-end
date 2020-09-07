@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 // Actions
 import { logOut } from '../redux/actions/index';
 
-function Navbar({ loggedUser, logOut }) {
-  const reservationsLink = loggedUser
+function Navbar({ loggedIn, logOut }) {
+  const reservationsLink = loggedIn
     ? <NavLink to="/reservations">Reservations</NavLink>
     : null;
 
-  const accountLinks = loggedUser
+  const accountLinks = loggedIn
     ? <NavLink to="/" onClick={logOut}>Log out</NavLink>
     : (
       <div>
@@ -50,12 +50,12 @@ function Navbar({ loggedUser, logOut }) {
 }
 
 Navbar.propTypes = {
-  loggedUser: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  loggedUser: state.user.token !== undefined && state.user.token.length > 0,
+  loggedIn: state.user.loggedIn,
 });
 
 export default connect(mapStateToProps, { logOut })(Navbar);

@@ -70,7 +70,7 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
       }
     };
 
-    apiCaller('POST', '/reservations', formData, waiting, response, authToken);
+    apiCaller('POST', '/reservations', formData, waiting, response);
   };
 
   return (
@@ -94,18 +94,14 @@ const CreateReservation = ({ authToken, roomID, addReservation }) => {
   );
 };
 
-const mapStateToProps = state => {
-  const token = state.user.token === undefined ? '' : state.user.token;
-
-  return {
-    authToken: token,
-  }
-};
-
 CreateReservation.propTypes = {
-  authToken: PropTypes.string.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
   roomID: PropTypes.number.isRequired,
   addReservation: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { addReservation })(CreateReservation);
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+});
+
+export default connect(() => ({}), { addReservation })(CreateReservation);

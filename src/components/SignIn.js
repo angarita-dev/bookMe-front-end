@@ -37,9 +37,9 @@ function SignIn({ setUser, setReservations }) {
 
     const onResponse = () => { setWaitingLogIn(false); };
 
-    const onSuccess = token => {
+    const onSuccess = () => {
       setRedirect(true);
-      queryReservations(setReservations, token);
+      queryReservations(setReservations);
     };
 
     callLogin(email, password, setUser, onResponse, onSuccess);

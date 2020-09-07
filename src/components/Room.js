@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const Room = props => {
   const {
-    roomID, title, imgUrl, capacity, privateRoom, amenities, loggedUser,
+    roomID, title, imgUrl, capacity, privateRoom, amenities, loggedIn,
   } = props;
 
   const imageStyle = { backgroundImage: `url(${imgUrl}` };
@@ -45,7 +45,7 @@ const Room = props => {
     )
     : null;
 
-  const createReservationLink = loggedUser
+  const createReservationLink = loggedIn
     ? <Link to={`/room/${roomID}`} className="reserve-link">Reserve room.</Link>
     : <Link to="/sign-in" className="reserve-link">Sign in to reserve.</Link>;
 
@@ -89,13 +89,13 @@ Room.propTypes = {
   title: PropTypes.string.isRequired,
   capacity: PropTypes.number.isRequired,
   privateRoom: PropTypes.bool.isRequired,
-  loggedUser: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
   imgUrl: PropTypes.string,
   amenities: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
-  loggedUser: state.user.token !== undefined && state.user.token.length > 0,
+  loggedIn: state.user.loggedIn,
 });
 
 export default connect(mapStateToProps)(Room);

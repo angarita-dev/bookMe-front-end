@@ -9,13 +9,13 @@ import { deleteReservation } from '../redux/actions/index';
 import deleteReservationQuery from '../api/deleteReservation';
 
 const ReservationRow = ({
-  roomID, id, from, to, deleteReservation, token,
+  roomID, id, from, to, deleteReservation,
 }) => {
   const fromDate = new Date(from).toLocaleString();
   const toDate = new Date(to).toLocaleString();
 
   const handleReservationDelete = () => {
-    deleteReservationQuery(deleteReservation, id, roomID, token);
+    deleteReservationQuery(deleteReservation, id, roomID);
   };
 
   const deleteIcon = (
@@ -43,13 +43,8 @@ ReservationRow.propTypes = {
   id: PropTypes.number.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
   roomID: PropTypes.number.isRequired,
   deleteReservation: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  token: state.user.token,
-});
-
-export default connect(mapStateToProps, { deleteReservation })(ReservationRow);
+export default connect(() => ({}), { deleteReservation })(ReservationRow);
