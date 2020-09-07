@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Actions
-import { setRooms } from '../redux/actions/index';
+import { setRooms, setUser } from '../redux/actions/index';
 
 // Components
 import SignUp from '../components/SignUp';
@@ -21,9 +21,11 @@ import RoomDisplay from './RoomDisplay';
 // Api caller
 import queryRooms from '../api/queryRooms';
 
-const App = ({ setRooms }) => {
+const App = ({ setRooms, setUser }) => {
   useEffect(() => {
     queryRooms(setRooms);
+    const token = localStorage.getItem('token');
+    if (token !== undefined && token.length > 0) setUser({}, true);
   }, []);
 
   return (
@@ -54,6 +56,7 @@ const App = ({ setRooms }) => {
 
 App.propTypes = {
   setRooms: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
-export default connect(() => ({}), { setRooms })(App);
+export default connect(() => ({}), { setRooms, setUser })(App);
