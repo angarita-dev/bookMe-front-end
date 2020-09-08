@@ -44,3 +44,24 @@
     }
   }
 }
+
+@media (max-width: 650px) {
+  .navbar {
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0 30px;
+
+    .navbar-list {
+      width: 100%;
+      justify-content: space-between;
+
+      a { margin: 0; }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .navbar {
+    .navbar-title { font-size: 1.75em; }
+  }
+}
