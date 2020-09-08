@@ -18,20 +18,21 @@ function Navbar({ loggedIn, logOut }) {
 
   const accountLinks = loggedIn
     ? <NavLink to="/" onClick={onLogout}>Log out</NavLink>
-    : (
-      <div>
-        <NavLink
-          to="/sign-in"
-        >
-          Sign In
-        </NavLink>
-        <NavLink
-          to="/sign-up"
-        >
-          Sign Up
-        </NavLink>
-      </div>
-    );
+    : [(
+      <NavLink
+        key="sign-in-link"
+        to="/sign-in"
+      >
+        Sign In
+      </NavLink>
+    ), (
+      <NavLink
+        key="sign-up-link"
+        to="/sign-up"
+      >
+        Sign Up
+      </NavLink>
+    )];
 
   return (
     <div className="navbar">
