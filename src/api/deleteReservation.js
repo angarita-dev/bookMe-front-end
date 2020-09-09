@@ -8,7 +8,12 @@ const queryDeleteReservation = (deleteReservation, id, roomID) => {
     }
   };
 
-  apiCaller('DELETE', `/reservations/${id}`, null, () => {}, response, true);
+  apiCaller({
+    method: 'DELETE',
+    endpoint: `/reservations/${id}`,
+    onReady: response,
+    tokenNeeded: true,
+  });
 };
 
 export default queryDeleteReservation;

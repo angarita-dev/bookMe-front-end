@@ -9,6 +9,7 @@
 @import './components/dateTime';
 @import './components/reservationsList';
 @import './components/createReservation';
+@import './components/errorDisplay';
 
 html,
 body,
@@ -17,6 +18,7 @@ body,
   margin: 0;
   height: 100%;
   width: 100%;
+  background-color: $bg-grey;
 }
 
 .App {

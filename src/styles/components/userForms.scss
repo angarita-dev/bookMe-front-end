@@ -3,7 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  min-height: 100%;
+  padding: 30px 0;
+  box-sizing: border-box;
 
   h1 {
     margin: 0;
@@ -34,6 +36,7 @@
         font-size: 20px;
         padding: 0 10px;
         color: $dark-grey;
+        background-color: $bg-grey;
         font-family: $text-font;
         font-weight: 500;
         border: none;
@@ -69,6 +72,7 @@
 
         h2,
         input {
+          box-sizing: border-box;
           margin: 0;
         }
       }
@@ -84,5 +88,25 @@
   .user-form {
     margin: 0 15px;
     .display-container { width: 90%; }
+  }
+}
+
+@media (max-width: 480px) {
+  .user-form.large {
+    flex-wrap: wrap;
+
+    .display-container {
+      .field {
+        margin-bottom: 30px;
+        flex-direction: column;
+
+        h2 { font-size: 1.4em; }
+
+        input {
+          margin-top: 15px;
+          width: 100%;
+        }
+      }
+    }
   }
 }

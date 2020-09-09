@@ -52,11 +52,9 @@ ReservationList.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { roomID } = ownProps;
-  const room = state.rooms.filter(room => room.id === roomID)[0];
 
-  const reservations = room === undefined || room.reservations === undefined
-    ? []
-    : room.reservations;
+  let reservations = state.reservations[roomID];
+  if (reservations === undefined) reservations = [];
 
   return { reservations };
 };

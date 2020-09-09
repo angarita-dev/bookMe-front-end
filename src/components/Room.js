@@ -10,7 +10,7 @@ const Room = props => {
 
   const imageStyle = { backgroundImage: `url(${imgUrl}` };
 
-  const image = imgUrl.length
+  const image = imgUrl !== null && imgUrl.length
     ? <div className="image-container" style={imageStyle} />
     : null;
 

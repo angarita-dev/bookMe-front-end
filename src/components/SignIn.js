@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
 
 // Actions
-import { setUser, setReservations } from '../redux/actions/index';
+import { addError, setUser, setReservations } from '../redux/actions/index';
 
 // Reusable components
 import SubmitButton from './SubmitButton';
@@ -14,7 +14,7 @@ import callLogin from '../api/login';
 import queryReservations from '../api/queryReservations';
 
 function SignIn({
-  setUser, setReservations, loggedIn,
+  setUser, setReservations, addError, loggedIn,
 }) {
   const useInput = ({ type, minLength = 0 }) => {
     const [value, setValue] = useState('');
@@ -43,12 +43,25 @@ function SignIn({
 
     const onResponse = () => { setWaitingLogIn(false); };
 
+    const onError = error => { addError(error); };
+
     const onSuccess = () => {
       setRedirect(true);
-      queryReservations(setReservations);
+
+      queryReservations({
+        addError,
+        setReservations,
+      });
     };
 
-    callLogin(email, password, setUser, onResponse, onSuccess);
+    const params = { email, password };
+    callLogin({
+      params,
+      setUser,
+      onSubmit: onResponse,
+      onReady: onSuccess,
+      onError,
+    });
   };
 
   if (loggedIn || redirect) return <Redirect to="/" />;
@@ -57,17 +70,15 @@ function SignIn({
     <div className="user-form">
       <h1>Sign in</h1>
       <div className="display-container">
-        <form>
-          <div className="field">
-            <h2>Email:</h2>
-            {emailInput}
-          </div>
-          <div className="field">
-            <h2>Password:</h2>
-            {passwordInput}
-          </div>
-          <SubmitButton handleSubmit={onSubmit} />
-        </form>
+        <div className="field">
+          <h2>Email:</h2>
+          {emailInput}
+        </div>
+        <div className="field">
+          <h2>Password:</h2>
+          {passwordInput}
+        </div>
+        <SubmitButton handleSubmit={onSubmit} />
         <div className="link-container">
           <p>
             Don&apos;t have an account?
@@ -84,6 +95,7 @@ function SignIn({
 SignIn.propTypes = {
   setUser: PropTypes.func.isRequired,
   setReservations: PropTypes.func.isRequired,
+  addError: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
 };
 
@@ -91,4 +103,4 @@ const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
 });
 
-export default connect(mapStateToProps, { setUser, setReservations })(SignIn);
+export default connect(mapStateToProps, { setUser, setReservations, addError })(SignIn);

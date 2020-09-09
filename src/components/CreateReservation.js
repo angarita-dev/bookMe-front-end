@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Actions
-import { addReservation } from '../redux/actions/index';
+import { addReservation, addError } from '../redux/actions/index';
 
 // Reusable component
 import SubmitButton from './SubmitButton';
@@ -13,7 +13,9 @@ import SubmitButton from './SubmitButton';
 // Api caller
 import apiCaller from '../api/apiCaller';
 
-const CreateReservation = ({ loggedIn, roomID, addReservation }) => {
+const CreateReservation = ({
+  loggedIn, roomID, addReservation, addError,
+}) => {
   const useDate = () => {
     const [value, setValue] = useState('');
 
@@ -49,24 +51,34 @@ const CreateReservation = ({ loggedIn, roomID, addReservation }) => {
   const onSubmitClick = () => {
     if (waitingSubmit) return;
 
-    const formData = new FormData();
+    const params = {
+      start_time: fromDate,
+      end_time: toDate,
+      room_id: roomID,
+    };
 
-    formData.append('start_time', fromDate);
-    formData.append('end_time', toDate);
-    formData.append('room_id', roomID);
-
-    const waiting = () => {
+    const onSubmit = () => {
       setWaitingSubmit(true);
     };
 
-    const response = (status, json) => {
+    const onReady = (status, json) => {
       setWaitingSubmit(false);
       if (status === 201) {
         addReservation(json);
       }
     };
 
-    apiCaller('POST', '/reservations', formData, waiting, response);
+    const onError = error => { addError(error); };
+
+    apiCaller({
+      method: 'POST',
+      endpoint: '/reservations',
+      tokenNeeded: true,
+      onError,
+      onReady,
+      onSubmit,
+      params,
+    });
   };
 
   return (
@@ -94,10 +106,11 @@ CreateReservation.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   roomID: PropTypes.number.isRequired,
   addReservation: PropTypes.func.isRequired,
+  addError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
 });
 
-export default connect(mapStateToProps, { addReservation })(CreateReservation);
+export default connect(mapStateToProps, { addReservation, addError })(CreateReservation);

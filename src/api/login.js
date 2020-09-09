@@ -1,22 +1,30 @@
 import apiCaller from './apiCaller';
 
-const login = (email, password, setUser, onResponse, onSuccess) => {
-  const formData = new FormData();
-
-  formData.append('email', email);
-  formData.append('password', password);
-
+const login = ({
+  params,
+  setUser,
+  onSubmit,
+  onReady,
+  onError,
+}) => {
   const response = (status, json) => {
-    onResponse();
+    onSubmit();
     if (status === 200) {
       const loggedIn = json.token !== undefined && json.token.length > 0;
-      setUser(json, loggedIn);
-      onSuccess();
       localStorage.setItem('token', json.token);
+      setUser(json, loggedIn);
+      onReady();
     }
   };
 
-  apiCaller('POST', '/users/login', formData, () => {}, response);
+  apiCaller({
+    method: 'POST',
+    endpoint: '/users/login',
+    onReady: response,
+    onSubmit,
+    params,
+    onError,
+  });
 };
 
 export default login;
