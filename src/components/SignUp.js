@@ -4,15 +4,15 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Actions
-import { setUser } from '../redux/actions/index';
+import { setUser, addError } from '../redux/actions/index';
 
 // Reusable components
 import SubmitButton from './SubmitButton';
 
 // Api caller
-import apiCaller from '../api/apiCaller';
+import signUp from '../api/signUp';
 
-function SignUp({ setUser, loggedIn }) {
+function SignUp({ setUser, loggedIn, addError }) {
   const useInput = ({ type, onChange, minLength = 0 }) => {
     const [value, setValue] = useState('');
     const input = (
@@ -48,34 +48,53 @@ function SignUp({ setUser, loggedIn }) {
     { type: 'password', onChange: checkConfirmation },
   );
 
-  const validate = () => (/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email))
-      && (password.length > 6)
-      && (password === passwordConfirmation);
+  const validate = () => {
+    let isValid = true;
+    if (!/[^@]+@[^@]+\.[a-zA-Z]{2,6}/.test(email)) {
+      addError('Please introduce a valid email');
+      isValid = false;
+    }
+    if (password.length < 6) {
+      addError('Please enter a password at least 6 characters long');
+      isValid = false;
+    }
+    if (password !== passwordConfirmation) {
+      addError('Password and password confirmation don\'t match');
+      isValid = false;
+    }
+    return isValid;
+  };
 
   const onSubmit = () => {
-    if (waitingSignUp || !validate()) return;
+    if (!validate() || waitingSignUp) return;
 
-    const formData = new FormData();
+    setWaitingSignUp(true);
 
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('password_confirmation', passwordConfirmation);
-
-    const waiting = () => {
-      setWaitingSignUp(true);
+    const params = {
+      name,
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
     };
 
-    const response = (status, json) => {
+    const onReady = json => {
+      const loggedIn = json.token !== undefined && json.token.length > 0;
+      setUser(json, loggedIn);
+
       setWaitingSignUp(false);
-      if (status === 201) {
-        setUser(json);
-        localStorage.setItem('token', json.token);
-        setRedirect(true);
-      }
+      setRedirect(true);
     };
 
-    apiCaller('POST', '/users', formData, waiting, response);
+    const onError = error => {
+      addError(error);
+      setWaitingSignUp(false);
+    };
+
+    signUp({
+      onReady,
+      onError,
+      params,
+    });
   };
 
   if (loggedIn || redirect) return <Redirect to="/" />;
@@ -84,25 +103,23 @@ function SignUp({ setUser, loggedIn }) {
     <div className="user-form large">
       <h1>Sign Up</h1>
       <div className="display-container">
-        <form>
-          <div className="field">
-            <h2>Name:</h2>
-            {nameInput}
-          </div>
-          <div className="field">
-            <h2>Email:</h2>
-            {emailInput}
-          </div>
-          <div className="field">
-            <h2>Password:</h2>
-            {passwordInput}
-          </div>
-          <div className="field">
-            <h2>Password confirmation:</h2>
-            {passwordConfirmationInput}
-          </div>
-          <SubmitButton handleSubmit={onSubmit} />
-        </form>
+        <div className="field">
+          <h2>Name:</h2>
+          {nameInput}
+        </div>
+        <div className="field">
+          <h2>Email:</h2>
+          {emailInput}
+        </div>
+        <div className="field">
+          <h2>Password:</h2>
+          {passwordInput}
+        </div>
+        <div className="field">
+          <h2>Password confirmation:</h2>
+          {passwordConfirmationInput}
+        </div>
+        <SubmitButton handleSubmit={onSubmit} />
         <div className="link-container">
           <p>
             Already have an account?
@@ -120,10 +137,11 @@ function SignUp({ setUser, loggedIn }) {
 SignUp.propTypes = {
   setUser: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  addError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
 });
 
-export default connect(mapStateToProps, { setUser })(SignUp);
+export default connect(mapStateToProps, { setUser, addError })(SignUp);
