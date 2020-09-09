@@ -1,0 +1,18 @@
+.error-display-container {
+  position: relative;
+  background-color: $error-bg;
+  color: $red-text-color;
+  padding: 15px;
+  border-radius: 15px;
+  margin: 0 50px;
+
+  h2 { margin: 0; }
+
+  .icon {
+    cursor: pointer;
+    margin: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
