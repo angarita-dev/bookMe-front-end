@@ -1,30 +1,58 @@
-function apiCaller(
+const processResponse = (response, onSubmit) => {
+  onSubmit();
+  return new Promise((resolve, reject) => {
+    const func = response.status < 400
+      ? resolve
+      : reject;
+
+    if (response.status === 204) return resolve({ json: {}, status: 204 });
+
+    return response.json()
+      .then(data => {
+        func({ status: response.status, meta: resolve, json: data });
+      });
+  });
+};
+
+function apiCaller({
   method,
-  endpoint = '',
-  formData = null,
+  endpoint = '/',
+  params = {},
   onSubmit = () => {},
   onReady = () => {},
+  onError = () => {},
   tokenNeeded,
-) {
-  const newEndpoint = endpoint[0] === '/' ? endpoint : `/${endpoint}`;
-  // const requestUrl = `http://181.58.38.50:3001${endpoint}`;
-  const requestUrl = `https://book-me-api-angarita-dev.herokuapp.com${newEndpoint}`;
-  const token = localStorage.getItem('token');
-  const authToken = tokenNeeded ? `Bearer ${token}` : '';
+}) {
+  const baseUrl = 'https://book-me-api-angarita-dev.herokuapp.com';
+  const requestUrl = new URL(endpoint, baseUrl);
+  requestUrl.search = new URLSearchParams(params).toString();
 
-  const req = new XMLHttpRequest();
-  req.open(method, requestUrl, true);
-  req.onreadystatechange = () => {
-    if (req.readyState === 2) {
-      onSubmit();
-    }
-    if (req.readyState === 4) {
-      const json = req.response.length ? JSON.parse(req.response) : '';
-      onReady(req.status, json);
-    }
+  const headers = new Headers();
+  headers.append('Access-Control-Allow-Origin', '*');
+  headers.append('Content-Type', 'application/json');
+  if (tokenNeeded) {
+    const token = localStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+  }
+
+  const options = {
+    method,
+    headers,
+    mode: 'cors',
+    cache: 'default',
   };
-  if (authToken !== '') req.setRequestHeader('Authorization', authToken);
-  req.send(formData);
+
+  fetch(requestUrl, options)
+    .then(response => processResponse(response, onSubmit))
+    .then(({ json, status }) => {
+      onReady(status, json);
+    })
+    .catch(json => {
+      let { error } = json;
+      if (error === undefined) error = 'Unexpected error';
+      onError(error);
+      return false;
+    });
 }
 
 export default apiCaller;
