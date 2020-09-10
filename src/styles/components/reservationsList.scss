@@ -1,0 +1,23 @@
+.reservations-container {
+  .reservations-title {
+    color: $dark-grey;
+    font-family: $title-font;
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  table {
+    margin: auto;
+    width: 50%;
+
+    tbody {
+      color: $grey;
+
+      span {
+        cursor: pointer;
+        transition: color 0.5s ease;
+        &:hover { color: $dark-grey; }
+      }
+    }
+  }
+}
