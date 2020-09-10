@@ -1,0 +1,67 @@
+.create-reservation {
+  height: 250px;
+  margin: 25px 25px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  h3 { margin-top: 0; }
+  h4 { color: $grey; }
+
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+
+    .input-container {
+      width: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .start-datetime,
+      .to-datetime {
+        width: 45%;
+
+        .rdt {
+          input {
+            width: 90%;
+            border: none;
+            margin-top: 15px;
+            border-bottom: 1px solid $border-grey;
+            font-family: $text-font;
+            font-size: 15px;
+            text-align: center;
+            color: $dark-grey;
+            background-color: $bg-grey;
+          }
+        }
+
+        .rdtPicker { margin-bottom: 50px; }
+      }
+    }
+  }
+
+  &.short {
+    margin-top: 0;
+    justify-content: center;
+    height: 100px;
+
+    .reserve-link {
+      color: white !important;
+      font-weight: 600;
+      font-family: $title-font;
+      text-align: center;
+      position: relative;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background-color: $high-blue;
+      cursor: pointer;
+    }
+  }
+}

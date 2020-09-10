@@ -1,0 +1,19 @@
+.room-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-height: 100%;
+  max-width: 100%;
+  padding: 50px;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  background-color: $bg-grey;
+}
+
+@media (max-width: 650px) {
+  .room-list {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
